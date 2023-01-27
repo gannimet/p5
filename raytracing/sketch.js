@@ -43,10 +43,28 @@ function draw() {
 
   viewer.draw();
 
-  viewer.rayTrace(walls);
+  const scene = viewer.rayTrace(walls);
 
   push();
   stroke('red');
   line(width/2, 0, width/2, height);
   pop();
+
+  const availableWidth = width / 2;
+  const maxDistance = sqrt(2 * availableWidth * availableWidth);
+  const rectW = availableWidth / scene.length;
+
+  translate(availableWidth, 0);
+
+  for (let i = 0; i < scene.length; i++) {
+    const d = scene[i].d;
+    const brightness = map(d, 0, maxDistance, 255, 30);
+    const rectH = d * Math.cos(viewer.lookingAngle - scene[i].angle);
+    const rectHCorrected = 20000 / rectH;
+
+    rectMode(CENTER);
+    stroke(brightness);
+    fill(brightness);
+    rect(i * rectW + rectW / 2, availableWidth / 2, rectW, rectHCorrected);
+  }
 }

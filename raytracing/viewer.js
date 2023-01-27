@@ -38,6 +38,8 @@ class Viewer {
   }
 
   rayTrace(walls) {
+    const scene = [];
+
     for (let ray of this.rays) {
       let closestPoint = null;
       let closestDistance = Infinity;
@@ -59,7 +61,14 @@ class Viewer {
         stroke(255, 255, 0, 100);
         line(this.position.x, this.position.y, closestPoint.x, closestPoint.y);
       }
+
+      scene.push({
+        d: closestDistance,
+        angle: ray.direction.heading()
+      });
     }
+
+    return scene;
   }
 
   draw() {

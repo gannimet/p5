@@ -1,4 +1,4 @@
 const config = {
-  rayAngleStepDegrees: 1,
-  fieldOfViewDegrees: 60,
+  rayAngleStepDegrees: 0.1,
+  fieldOfViewDegrees: 70,
 };
