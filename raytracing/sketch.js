@@ -2,7 +2,7 @@ let viewer;
 let walls = [];
 
 function setup() {
-  createCanvas(1000, 600);
+  createCanvas(1400, 600);
   background(0);
 
   viewer = new Viewer(80, 80);

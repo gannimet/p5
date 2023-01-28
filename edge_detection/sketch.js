@@ -13,12 +13,12 @@ const KernelY = [
   [-1, -2, -1]
 ];
 
-const THRESHOLD = 128;
+const THRESHOLD = 0;
 const BINARY = false;
 
 function preload() {
-  // inputImage = loadImage('images/mcdonald.png');
-  inputImage = loadImage('images/mountain-lake.jpeg');
+  inputImage = loadImage('images/mcdonald.png');
+  // inputImage = loadImage('images/mountain-lake.jpeg');
 }
 
 function setup() {
