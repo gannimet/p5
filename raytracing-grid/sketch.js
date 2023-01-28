@@ -7,13 +7,13 @@ function setup() {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1],
     [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1],
     [1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1],
     [1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
     [1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
+    [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -47,22 +47,29 @@ function draw() {
   background(0);
 
   drawFirstPersonView();
-  drawGridWindow();
+
+  if (config.showGridWindow) {
+    drawGridWindow();
+  }
 }
 
 function drawFirstPersonView() {}
 
 function drawGridWindow() {
+  fill(100, 100, 100);
+  stroke(255, 0, 0);
+  strokeWeight(1);
+  rect(0, 0, config.gridWindowSize, config.gridWindowSize);
+
   for (let x = 0; x < grid.width; x++) {
     for (let y = 0; y < grid.height; y++) {
-      stroke(100, 100, 100);
-      strokeWeight(1);
+      strokeWeight(0);
       fill(grid.getCellValueAt(x, y) === 0 ? 0 : 255);
       rect(
         x * scaleFactorX,
         y * scaleFactorY,
-        scaleFactorX,
-        scaleFactorY
+        scaleFactorX-1,
+        scaleFactorY-1
       );
     }
   }

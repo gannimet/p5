@@ -6,11 +6,19 @@ class Player {
   }
 
   moveForward() {
-    this.position.add(this.direction);
+    const newPosition = p5.Vector.add(this.position, this.direction);
+    
+    if (this.grid.isPointLegal(newPosition)) {
+      this.position = newPosition;
+    }
   }
 
   moveBackward() {
-    this.position.sub(this.direction);
+    const newPosition = p5.Vector.sub(this.position, this.direction);
+    
+    if (this.grid.isPointLegal(newPosition)) {
+      this.position = newPosition;
+    }
   }
 
   turnLeft() {
