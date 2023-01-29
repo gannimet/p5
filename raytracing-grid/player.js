@@ -5,6 +5,23 @@ class Player {
     this.grid = grid;
   }
 
+  projectRay() {
+    const { x, y } = this.position;
+    const theta = this.direction.heading();
+    const gridX = Math.floor(x);
+    const gridY = Math.floor(y);
+    const dx = x - gridX;
+    const dy = y - gridY;
+    const yStep = (1 - dx) * Math.tan(theta);
+    const xStep = (1 - dy) / Math.tan(theta);
+    const nearestVerticalCollision = createVector(x + (1 - dx), y + yStep);
+    const nearestHorizontalCollision = createVector(x + xStep, y + (1 - dy));
+    const verticalDist = this.position.dist(nearestVerticalCollision);
+    const horizontalDist = this.position.dist(nearestHorizontalCollision);
+
+    return verticalDist < horizontalDist ? nearestVerticalCollision : nearestHorizontalCollision;
+  }
+
   moveForward() {
     const newPosition = p5.Vector.add(this.position, this.direction);
     
@@ -23,9 +40,11 @@ class Player {
 
   turnLeft() {
     this.direction.rotate(-config.turnAngle);
+    console.log('angle:', this.direction.heading());
   }
 
   turnRight() {
     this.direction.rotate(config.turnAngle);
+    console.log('angle:', this.direction.heading());
   }
 }

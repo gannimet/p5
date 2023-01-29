@@ -3,8 +3,6 @@ class Grid {
     this.cells = cells;
     this.width = cells[0].length;
     this.height = cells.length;
-    console.log('width:', this.width);
-    console.log('height:', this.height);
   }
 
   getCellValueAt(x, y) {
@@ -12,7 +10,6 @@ class Grid {
   }
 
   isPointLegal(point) {
-    console.log(point);
     const x = Math.floor(point.x);
     const y = Math.floor(point.y);
 

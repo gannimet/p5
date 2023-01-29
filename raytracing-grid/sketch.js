@@ -81,9 +81,15 @@ function drawPlayer() {
   const playerX = player.position.x * scaleFactorX;
   const playerY = player.position.y * scaleFactorY;
 
-  strokeWeight(2);
-  stroke(0, 255, 0);
-  line(playerX, playerY, playerX + player.direction.x * scaleFactorX * 10, playerY + player.direction.y * scaleFactorY * 10);
+  // strokeWeight(2);
+  // stroke(0, 255, 0);
+  // line(playerX, playerY, playerX + player.direction.x * scaleFactorX * 15, playerY + player.direction.y * scaleFactorY * 15);
+
+  const collisionPoint = player.projectRay();
+
+  stroke('yellow');
+  strokeWeight(1);
+  line(playerX, playerY, collisionPoint.x * scaleFactorX, collisionPoint.y * scaleFactorY);
   
   fill(255, 0, 0);
   strokeWeight(0);
