@@ -20,7 +20,7 @@ function setup() {
     [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   ]);
-  player = new Player(0.5, 1.5, grid);
+  player = new Player(7.5, 7.5, grid);
   scaleFactorX = config.gridWindowSize / grid.width;
   scaleFactorY = config.gridWindowSize / grid.height;
 
@@ -81,15 +81,20 @@ function drawPlayer() {
   const playerX = player.position.x * scaleFactorX;
   const playerY = player.position.y * scaleFactorY;
 
+  // Direction hint
   // strokeWeight(2);
   // stroke(0, 255, 0);
   // line(playerX, playerY, playerX + player.direction.x * scaleFactorX * 15, playerY + player.direction.y * scaleFactorY * 15);
 
   const collisionPoint = player.projectRay();
 
+  // Cast ray
   stroke('yellow');
   strokeWeight(1);
   line(playerX, playerY, collisionPoint.x * scaleFactorX, collisionPoint.y * scaleFactorY);
+  stroke('pink');
+  fill('pink');
+  circle(collisionPoint.x * scaleFactorX, collisionPoint.y * scaleFactorY, 3);
   
   fill(255, 0, 0);
   strokeWeight(0);
