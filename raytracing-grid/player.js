@@ -10,7 +10,7 @@ class Player {
     let nextBorderPoint = this._findNextBorderPoint(this.position, theta);
     let loopCount = 0;
 
-    while (this.grid.isPointLegal(nextBorderPoint) && loopCount < 1000) {
+    while (this.grid.isAdjacentPointLegal(nextBorderPoint, theta) && loopCount < 1000) {
       nextBorderPoint = this._findNextBorderPoint(nextBorderPoint, theta);
       loopCount++;
     }
@@ -28,25 +28,13 @@ class Player {
     const { x, y } = startingPosition;
     const isRayPointingRight = Math.abs(theta) < HALF_PI;
     const isRayPointingDown = theta > 0;
-    const gridX = Math.floor(x);
-    const gridY = Math.floor(y);
-    const dx = x - gridX;
-    const dy = y - gridY;
-    const yStep = isRayPointingRight ? (1 - dx) * Math.tan(theta) : dx * Math.tan(PI - theta);
-    const xStep = isRayPointingDown ? (1 - dy) / Math.tan(theta) : dy * Math.tan(theta - HALF_PI);
-
-    // Calculate next collision point with vertical cell border
-    const nearestVerticalCollision = createVector(
-      isRayPointingRight ? x + (1 - dx) : x - dx,
-      y + yStep
-    );
-
-    // Calculate next collision point with horizontal cell border
-    const nearestHorizontalCollision = createVector(
-      x + xStep,
-      isRayPointingDown ? y + (1 - dy) : y - dy
-    );
-
+    const tan = Math.tan(theta);
+    const dx = isRayPointingRight ? successingInteger(x) - x : predecessingInteger(x) - x;
+    const dy = isRayPointingDown ? successingInteger(y) - y : predecessingInteger(y) - y;
+    const stepX = dy / tan;
+    const stepY = dx * tan;
+    const nearestVerticalCollision = createVector(x + dx, y + stepY);
+    const nearestHorizontalCollision = createVector(x + stepX, y + dy);
     const verticalDist = this.position.dist(nearestVerticalCollision);
     const horizontalDist = this.position.dist(nearestHorizontalCollision);
 
