@@ -95,16 +95,18 @@ function drawPlayer() {
   stroke(0, 255, 0);
   line(playerX, playerY, playerX + player.direction.x * scaleFactorX * 15, playerY + player.direction.y * scaleFactorY * 15);
 
-  const collisionPoint = player.projectRay();
+  const collisionPoints = player.projectRays();
 
-  // Cast ray
-  stroke('yellow');
-  strokeWeight(1);
-  line(playerX, playerY, collisionPoint.x * scaleFactorX, collisionPoint.y * scaleFactorY);
-  strokeWeight(2);
-  stroke('blue');
-  fill('white');
-  circle(collisionPoint.x * scaleFactorX, collisionPoint.y * scaleFactorY, 6);
+  // Cast rays
+  collisionPoints.forEach((collisionPoint) => {
+    stroke('yellow');
+    strokeWeight(1);
+    line(playerX, playerY, collisionPoint.x * scaleFactorX, collisionPoint.y * scaleFactorY);
+    strokeWeight(2);
+    stroke('blue');
+    fill('white');
+    circle(collisionPoint.x * scaleFactorX, collisionPoint.y * scaleFactorY, 6);
+  });
   
   fill(255, 0, 0);
   strokeWeight(0);

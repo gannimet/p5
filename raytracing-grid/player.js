@@ -5,17 +5,28 @@ class Player {
     this.grid = grid;
   }
 
-  projectRay() {
-    let theta = this.direction.heading();
-    let nextBorderPoint = this._findNextBorderPoint(this.position, theta);
-    let loopCount = 0;
+  projectRays() {
+    const fieldOfView = radians(config.fieldOfViewDegrees);
+    const rayInterval = radians(config.rayIntervalDegrees);
+    const collisionPoints = [];
+    const rayDirection = createVector(1, 0);
+    const numberOfRays = config.fieldOfViewDegrees / config.rayIntervalDegrees;
 
-    while (this.grid.isAdjacentPointLegal(nextBorderPoint, theta) && loopCount < 1000) {
-      nextBorderPoint = this._findNextBorderPoint(nextBorderPoint, theta);
-      loopCount++;
+    rayDirection.setHeading(this.direction.heading() - fieldOfView / 2);
+
+    for (let i = 0; i < numberOfRays; i++) {
+      const theta = rayDirection.heading();
+      let nextBorderPoint = this._findNextBorderPoint(this.position, theta);
+  
+      while (this.grid.isAdjacentPointLegal(nextBorderPoint, theta)) {
+        nextBorderPoint = this._findNextBorderPoint(nextBorderPoint, theta);
+      }
+
+      collisionPoints.push(nextBorderPoint);
+      rayDirection.rotate(rayInterval);
     }
     
-    return nextBorderPoint;
+    return collisionPoints;
   }
 
   /**
