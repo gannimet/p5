@@ -5,24 +5,35 @@ class Player {
     this.grid = grid;
   }
 
-  projectRays() {
+  castRays() {
     const fieldOfView = radians(config.fieldOfViewDegrees);
     const rayInterval = radians(config.rayIntervalDegrees);
     const collisionPoints = [];
     const rayDirection = createVector(1, 0);
-    const numberOfRays = config.fieldOfViewDegrees / config.rayIntervalDegrees;
+    const numberOfRays = fieldOfView / rayInterval;
 
     rayDirection.setHeading(this.direction.heading() - fieldOfView / 2);
 
     for (let i = 0; i < numberOfRays; i++) {
       const theta = rayDirection.heading();
       let nextBorderPoint = this._findNextBorderPoint(this.position, theta);
+      let collisionCellValue = 0;
   
-      while (this.grid.isAdjacentPointLegal(nextBorderPoint, theta)) {
-        nextBorderPoint = this._findNextBorderPoint(nextBorderPoint, theta);
+      while (true) {
+        collisionCellValue = this.grid.getAdjacentCellValue(nextBorderPoint, theta);
+
+        if (collisionCellValue === 0) {
+          nextBorderPoint = this._findNextBorderPoint(nextBorderPoint, theta);
+        } else {
+          break;
+        }
       }
 
-      collisionPoints.push(nextBorderPoint);
+      collisionPoints.push({
+        point: nextBorderPoint,
+        cellValue: collisionCellValue,
+        theta,
+      });
       rayDirection.rotate(rayInterval);
     }
     

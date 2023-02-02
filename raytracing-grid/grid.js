@@ -20,16 +20,16 @@ class Grid {
     );
   }
 
-  isAdjacentPointLegal(point, theta) {
+  getAdjacentCellValue(point, theta) {
     const isRayPointingRight = Math.abs(theta) < HALF_PI;
     const isRayPointingDown = theta > 0;
     const x = Number.isInteger(point.x) && !isRayPointingRight ? predecessingInteger(point.x) : Math.floor(point.x);
     const y = Number.isInteger(point.y) && !isRayPointingDown ? predecessingInteger(point.y) : Math.floor(point.y);
 
-    return (
-      x >= 0 && x < this.width &&
-      y >= 0 && y < this.height &&
-      this.cells[y][x] === 0
-    );
+    if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+      return 2;
+    }
+
+    return this.cells[y][x];
   }
 }
