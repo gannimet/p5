@@ -3,10 +3,10 @@ let player;
 let scaleFactorX, scaleFactorY;
 
 function setup() {
-  // 0 = free, 1 = wall, 2 = out of bounds, 3 = item
+  // 0 = free, 1 = wall, 2 = item, 3 = out of bounds
   grid = new Grid([
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1],
@@ -21,7 +21,7 @@ function setup() {
     [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   ]);
-  player = new Player(7.3, 7.7, grid);
+  player = new Player(0.5, 1.5, grid);
   scaleFactorX = config.gridWindowSize / grid.width;
   scaleFactorY = config.gridWindowSize / grid.height;
 
@@ -76,8 +76,10 @@ function drawFirstPersonView(collisionPoints) {
 
     if (cellValue === 1) {
       // Wall
-      fill('grey');
+      fill(160 - (dist * 6));
     } else if (cellValue === 2) {
+      fill(40, 100 - (dist * 10), 255 - (dist * 10));
+    } else if (cellValue === 3) {
       // Door
       fill('red');
     }
@@ -104,7 +106,15 @@ function drawGridWindow(collisionPoints) {
       const cellValue = grid.getCellValueAt(x, y);
 
       strokeWeight(0);
-      fill(cellValue === 0 ? 0 : 255);
+      
+      if (cellValue === 0) {
+        fill(0);
+      } else if (cellValue === 1) {
+        fill(255);
+      } else if (cellValue === 2) {
+        fill(80, 100, 255);
+      }
+
       rect(
         x * scaleFactorX,
         y * scaleFactorY,
@@ -147,4 +157,13 @@ function drawPlayer(collisionPoints) {
   fill(255, 0, 0);
   strokeWeight(0);
   circle(playerX, playerY, 6);
+}
+
+function mouseClicked() {
+  if (config.showGridWindow && mouseX <= config.gridWindowSize && mouseY <= config.gridWindowSize) {
+    const gridX = Math.floor(mouseX / scaleFactorX);
+    const gridY = Math.floor(mouseY / scaleFactorY);
+
+    grid.toggleCellValueAt(gridX, gridY);
+  }
 }
