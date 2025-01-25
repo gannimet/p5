@@ -4,6 +4,6 @@ const config = {
   playerSpeed: 0.03,
   turnAngle: 0.03,
   fieldOfViewDegrees: 70,
-  rayIntervalDegrees: 0.1,
+  rayIntervalDegrees: 0.2,
   outputCellCoords: false,
 };
